@@ -1,4 +1,5 @@
 .idea
+hibernate.cfg.xml
 
 # Compiled class file
 *.class
