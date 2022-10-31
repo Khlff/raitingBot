@@ -12,7 +12,7 @@
         <maven.compiler.source>18</maven.compiler.source>
         <maven.compiler.target>18</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hibernate-version>5.0.1.Final</hibernate-version>
+        <hibernate-version>5.3.20.Final</hibernate-version>
     </properties>
 
     <dependencies>
@@ -24,24 +24,18 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.2.26.jre7</version>
+            <version>42.5.0</version>
         </dependency>
-
-        <!-- Hibernate -->
-        <!-- to start need only this -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>${hibernate-version}</version>
+            <version>6.1.4.Final</version>
         </dependency>
-
-        <!-- for JPA, use hibernate-entitymanager instead of hibernate-core -->
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>${hibernate-version}</version>
+            <groupId>javax.persistence</groupId>
+            <artifactId>javax.persistence-api</artifactId>
+            <version>2.2</version>
         </dependency>
     </dependencies>
-
 
 </project>

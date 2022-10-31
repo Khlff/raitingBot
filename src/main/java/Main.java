@@ -1,6 +1,8 @@
+import data.User;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
+import services.UserService;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,6 +14,15 @@ public class Main {
 
         catch (TelegramApiException e) {
             e.printStackTrace();
+        }
+        try {
+            UserService userService = new UserService();
+            User user = new User();
+            user.setAge(23);
+            userService.updateUser(user);
+        }
+        catch (Exception e) {
+
         }
     }
 }

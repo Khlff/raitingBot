@@ -8,13 +8,17 @@ public class User {
     //    private String username;
 //    private String photo;
 //    private Long chatId;
-    private int id;
+    private Long id;
     @Column(name = "name")
     private String name;
     private int age;
-    private long photo;
+    private Long photo;
     private Boolean statusOfWaitingPhoto;
     private Boolean statusOfWaitingName;
+
+    public User() {
+
+    }
 
     public User(boolean statusOfWaitingName, boolean statusOfWaitingPhoto) {
 //        this.username = username;
@@ -38,6 +42,18 @@ public class User {
 
     public void setStatusOfName(Boolean newStatusOfName) {
         statusOfWaitingName = newStatusOfName;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getAge() {
