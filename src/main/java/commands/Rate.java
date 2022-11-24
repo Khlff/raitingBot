@@ -28,8 +28,7 @@ public class Rate implements Command, CanHaveChatID{
     public String Execute() {
         if (!UsersInformation.hasWaitingRate(chatId))
             usersInformation.update(chatId, UsersInformation.hasWaitingUpdate(chatId),true);
-        return "заглушка";
-
+    return "Оцените следующие фотографии:";
     }
 
     @Override
