@@ -49,13 +49,13 @@ public class DatabasePostgreSQL implements Database {
 
     }
 
-    public void insert(String tablename, )
+//    public void insert(String tablename, )
 
     @Override
     public void updateToDb(Long user_id, String username, String photo_id) throws SQLException {
         /* todo:
             в Database не хочется конкретной завязки под таблицу
-            хочется только инфраструктурный вещи, а про табличцу в отдлеьном репозитории
+            хочется только инфраструктурный вещи, а про табличцу в отдельном репозитории
          */
         /* TODO:
             Просто нужно каким-то образом избавиться от response и сделать его в отдельном файлике,
