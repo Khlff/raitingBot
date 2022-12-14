@@ -1,27 +1,44 @@
 import commands.*;
-import repository.StockOfTables;
+import data.UsersInformation;
+import db.Database;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 
 import java.sql.SQLException;
 
 
 public class BotApp {
+
+    //todo модификаторы
     Command[] commandList;
 
     private final static String defaultAnswer = "Команда не найдена. Введите /help для просмотра команд.";
+    CanHaveCommandList helpCommand;
+    Command startCommand;
+    Command createCommand;
+    Command rateCommand;
 
-    StockOfTables database;
+//    class UsersRepository {
+//        private final Database db;
+//        public UsersRepository(Database database) {
+//            this.db = database;
+//        }
+//        void update(Long user_id, String username,String photo_id) throws SQLException {
+//            var con = db.getConnection();
+//
+//        }
+//    }
 
-    BotApp(StockOfTables database, Command[] commands) {
+    Database database;
+    BotApp(Database database, Command[] commands) {
         this.database = database;
         this.commandList = commands;
     }
 
-    public String commandHandler(String inputMessage, Long chatID) throws SQLException {
+    public String commandHandler(String inputMessage, Long chatID) {
         for (var iterCommand : commandList) {
             if (iterCommand.isActive(inputMessage)) {
                 if (iterCommand instanceof CanHaveChatID chatIDSetter)
-                    chatIDSetter.setUserId(chatID);
+                    chatIDSetter.setChatId(chatID);
 
                 return iterCommand.Execute();
             }
@@ -36,8 +53,9 @@ public class BotApp {
         if (name.length() > 20)
             return "\uD83D\uDD34Имя не может быть таким длинным";
 
-        database.users.setStatusOfWaitingUpdate(chatID, false);
-        database.users.updateUserInformation(chatID, name, photoId);
+        UsersInformation.updateStatusOfPhotoAndName(chatID, false);
+        database.updateToDb(chatID,name,photoId);
+        // Записываем в бд chatId, name
         return "Профиль изменён✅";
     }
 }
