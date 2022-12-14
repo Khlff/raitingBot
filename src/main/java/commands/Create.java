@@ -1,15 +1,16 @@
 package commands;
 
 
-import data.UsersInformation;
+import repository.StockOfTables;
 
+import java.sql.SQLException;
 
 public class Create implements Command, CanHaveChatID {
-    public static UsersInformation usersInformation;
     private Long chatId;
+    protected StockOfTables database;
 
-    public Create(UsersInformation usersInformation) {
-        Create.usersInformation = usersInformation;
+    public Create(StockOfTables database) {
+        this.database = database;
     }
 
     @Override
@@ -23,14 +24,20 @@ public class Create implements Command, CanHaveChatID {
     }
 
     @Override
-    public void setChatId(Long chatId) {
-        this.chatId = chatId;
+    public void setUserId(Long userId) {
+        this.chatId = userId;
     }
 
     @Override
-    public String Execute() {
-        if (!UsersInformation.hasWaitingUpdate(chatId))
-            usersInformation.update(chatId, true, UsersInformation.hasWaitingRate(chatId));
+    public String Execute() throws SQLException {
+        if (database.users.isUserExists(chatId)) {
+            if (!(database.users.getStatusOfWaitingUpdate(chatId)))
+                database.users.setStatusOfWaitingUpdate(chatId, true);
+        } else {
+            database.users.createNewUser(chatId);
+            database.users.setStatusOfWaitingUpdate(chatId, true);
+        }
+
         return """
                 Пришли своё имя и фотокарточку одним сообщением...📝""";
     }

@@ -1,5 +1,5 @@
 package commands;
 
 public interface CanHaveChatID extends Command{
-    void setChatId(Long chatId);
+    void setUserId(Long userId);
 }

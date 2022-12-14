@@ -1,44 +1,27 @@
 import commands.*;
-import data.UsersInformation;
-import db.Database;
+import repository.StockOfTables;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 
 import java.sql.SQLException;
 
 
 public class BotApp {
-
-    //todo модификаторы
     Command[] commandList;
 
     private final static String defaultAnswer = "Команда не найдена. Введите /help для просмотра команд.";
-    CanHaveCommandList helpCommand;
-    Command startCommand;
-    Command createCommand;
-    Command rateCommand;
 
-//    class UsersRepository {
-//        private final Database db;
-//        public UsersRepository(Database database) {
-//            this.db = database;
-//        }
-//        void update(Long user_id, String username,String photo_id) throws SQLException {
-//            var con = db.getConnection();
-//
-//        }
-//    }
+    StockOfTables database;
 
-    Database database;
-    BotApp(Database database, Command[] commands) {
+    BotApp(StockOfTables database, Command[] commands) {
         this.database = database;
         this.commandList = commands;
     }
 
-    public String commandHandler(String inputMessage, Long chatID) {
+    public String commandHandler(String inputMessage, Long chatID) throws SQLException {
         for (var iterCommand : commandList) {
             if (iterCommand.isActive(inputMessage)) {
                 if (iterCommand instanceof CanHaveChatID chatIDSetter)
-                    chatIDSetter.setChatId(chatID);
+                    chatIDSetter.setUserId(chatID);
 
                 return iterCommand.Execute();
             }
@@ -53,9 +36,8 @@ public class BotApp {
         if (name.length() > 20)
             return "\uD83D\uDD34Имя не может быть таким длинным";
 
-        UsersInformation.updateStatusOfPhotoAndName(chatID, false);
-        database.updateToDb(chatID,name,photoId);
-        // Записываем в бд chatId, name
+        database.users.setStatusOfWaitingUpdate(chatID, false);
+        database.users.updateUserInformation(chatID, name, photoId);
         return "Профиль изменён✅";
     }
 }
